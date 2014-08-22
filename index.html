@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>SimpleFocus</title>
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/simpleFocus.js"></script>
+        <link rel="stylesheet" href="css/simpleFocus.css" />
+        <style>
+            .wrap{
+                width:600px;
+                margin:50px auto;
+            }
+        </style>
+        <script>
+			$(function() {
+				$("#div1").simpleFocus();
+                $("#div2").simpleFocus({type:"slide"});
+                // $("#div3").simpleFocus();
+			})
+        </script>
+    </head>
+    
+    <body>
+        <div class="wrap">
+            <div id="div1" class="simpleFocus">
+                <ul>
+                    <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
+                    <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
+                    <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
+                    <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap">
+            <div id="div2" class="simpleFocus">
+                <ul>
+                    <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
+                    <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
+                    <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
+                    <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrap">
+            <div id="div3" class="simpleFocus">
+                <ul>
+                    <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
+                    <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
+                    <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
+                    <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
