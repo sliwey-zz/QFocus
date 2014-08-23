@@ -55,11 +55,11 @@
 }
 .prev{
 	border-right:20px solid #999;
-	left: 0;
+	left: 5px;
 }
 .next{
 	border-left:20px solid #999;
-	right:0;
+	right:5px;
 }
 
 /* slide */
