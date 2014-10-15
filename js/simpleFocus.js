@@ -1,9 +1,9 @@
 /**
  *  simpleFocus.js   v1.0.0
  *  
- *	author: sliwey
+ *	author: qianlw
  *  date: 2014-8-20
- *  update: 2014-8-23	
+ *  update: 2014-10-15	
  */
 
 ;(function($) {
@@ -14,7 +14,9 @@
 		title : true,
 		type : "fade",		
 		duration : 500,		// 动画持续时间
-		interval : 5000		// 自动播放时间间隔
+		interval : 5000,	// 自动播放时间间隔
+		prevBtn : null,
+		nextBtn : null
 	};
 
 	$.fn.extend({
@@ -25,7 +27,36 @@
 		}
 	});
 	
-	var CSS_SHOW = "show";
+	var supportCSS3 = function(style) {
+		var prefix = ["webkit", "Moz", "ms", "o"],
+			supportStyle = document.documentElement.style,
+			styleTemp = style.split("-"),
+			length = styleTemp.length,
+			i,suffix,
+			styleArr = [style];
+
+			if (length > 1) {
+				for (i = 0; i < length; i++) {
+					styleTemp[i] = styleTemp[i].charAt(0).toUpperCase() + styleTemp[i].substring(1);
+				}
+			}
+
+			suffix = styleTemp.join('');
+
+			for (i = 0; i < 4; i++) {
+				styleArr.push(prefix[i] + suffix);
+			}
+
+			for (i = 0; i < 5; i++) {
+				if (styleArr[i] in supportStyle) {
+					return true;
+				}
+			}
+			return false;
+	};
+
+	var CSS_SHOW = "show",
+		canTransition = supportCSS3("transition");
 
 	var init = function(setting, _this) {
 		var images = _this.find("li"),
@@ -45,9 +76,19 @@
 			right = [];
 		
 		// 必要元素初始化
-		images.eq(0).addClass(CSS_SHOW);
+		if (canTransition) {
+			images.eq(0).addClass(CSS_SHOW);
+		} else {
+			images.addClass(CSS_SHOW).hide();
+			images.eq(0).show();
+		}
+		images.css("width", setting.width);
 		_this.css({"width" : setting.width, "height" : setting.height});
-		_this.append("<span class=\"prev\"></span><span class=\"next\"></span>");
+
+		// 设置切换按钮
+		if (!setting.prevBtn && !setting.nextBtn) {
+			_this.append("<span class=\"prev\">&lsaquo;</span><span class=\"next\">&rsaquo;</span>");
+		}
 
 		// 设置title
 		if (setting.title) {
@@ -60,8 +101,7 @@
 
 		// 设置动画持续时间
 		duration = {
-			"transition-duration" : setting.duration + 'ms',
-			"-webkit-transition-duration" : setting.duration + 'ms'
+			"transition-duration" : setting.duration + 'ms'
 		};
 
 		for (i = 0; i < length; i++) {
@@ -74,10 +114,8 @@
 			titles.eq(i).css(duration);
 		}
 
-		prev = _this.find(".prev");
-		next = _this.find(".next");
-		prev.css(duration);
-		next.css(duration);
+		prev = setting.prevBtn || _this.find(".prev");
+		next = setting.nextBtn || _this.find(".next");
 
 		// fade
 		if (setting.type == "fade") {
@@ -167,7 +205,6 @@
 				duration = param.duration || param.data.duration;
 				isFirst = false;
 			}
-				
 
 			// 控制两次点击的时间间隔大于动画时间	
 			if (flag) {
@@ -189,8 +226,13 @@
 					before = length + before;
 				}
 
-				images.eq(index).removeClass(CSS_SHOW);
-				images.eq(before).addClass(CSS_SHOW);
+				if (canTransition) {
+					images.eq(index).removeClass(CSS_SHOW);
+					images.eq(before).addClass(CSS_SHOW);
+				} else {
+					images.eq(index).fadeOut(duration);
+					images.eq(before).fadeIn(duration);
+				}
 
 				if (param.data) {
 					images.eq(index).find(".title").removeClass(CSS_SHOW);
@@ -206,8 +248,13 @@
 					after = length - after;
 				}
 				
-				images.eq(index).removeClass(CSS_SHOW);
-				images.eq(after).addClass(CSS_SHOW);
+				if (canTransition) {
+					images.eq(index).removeClass(CSS_SHOW);
+					images.eq(after).addClass(CSS_SHOW);
+				} else {
+					images.eq(index).fadeOut(duration);
+					images.eq(after).fadeIn(duration);
+				}
 
 				if (param.data) {
 					images.eq(index).find(".title").removeClass(CSS_SHOW);
@@ -216,7 +263,7 @@
 
 				index = after;
 			}
-		}	
+		};
 
 		// 返回动画函数
 		return _fade;
@@ -270,8 +317,13 @@
 					prev = left.pop();
 				}
 
-				images.eq(index).css("left", step);
-				images.eq(prev).addClass(CSS_SHOW).css("left", "0");
+				if (canTransition) {
+					images.eq(index).css("left", step);
+					images.eq(prev).addClass(CSS_SHOW).css("left", "0");
+				} else {
+					images.eq(index).animate({"left": step}, duration);
+					images.eq(prev).show().animate({"left": "0"}, duration);
+				}
 				
 				if (param.data) {
 					images.eq(index).find(".title").removeClass(CSS_SHOW);
@@ -287,7 +339,11 @@
 					if (before === right[0]) {
 						right.shift();
 					}
-					images.eq(before).removeClass(CSS_SHOW).css("left", -step);
+					if (canTransition) {
+						images.eq(before).removeClass(CSS_SHOW).css("left", -step);
+					} else {
+						images.eq(before).hide().css("left", -step);
+					}
 					left.push(before);
 				}
 
@@ -302,8 +358,13 @@
 					next = right.pop();
 				}
 
-				images.eq(index).css("left", -step);
-				images.eq(next).addClass(CSS_SHOW).css("left", "0");
+				if (canTransition) {
+					images.eq(index).css("left", -step);
+					images.eq(next).addClass(CSS_SHOW).css("left", "0");
+				} else {
+					images.eq(index).animate({"left": -step}, duration);
+					images.eq(next).show().animate({"left": "0"}, duration);
+				}
 	
 				if (param.data) {
 					images.eq(index).find(".title").removeClass(CSS_SHOW);
@@ -319,14 +380,18 @@
 					if (left[0] === after) {
 						left.shift();	
 					}
-					images.eq(after).removeClass(CSS_SHOW).css("left", step);
+					if (canTransition) {
+						images.eq(after).removeClass(CSS_SHOW).css("left", step);
+					} else {
+						images.eq(after).hide().css("left", step);
+					}
 					right.push(after);
 				}
 
 				index = next;
 				direction = 1;
 			}
-		}
+		};
 
 		// 返回动画函数	
 		return _slide;
@@ -337,4 +402,5 @@
 			fn(options);
 		}, interval);
 	};
+
 })(jQuery);
