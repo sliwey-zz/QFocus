@@ -1,9 +1,9 @@
 /**
- *  simpleFocus.js   v1.0.0
+ *  simpleFocus.js   v2.0.0
  *  
  *	author: sliwey
  *  date: 2014-8-20
- *  update: 2014-10-15	
+ *  update: 2014-10-20	
  */
 
 ;(function($) {
@@ -45,12 +45,6 @@
 			
 		
 		// 必要元素初始化
-		if (canTransition) {
-			images.eq(0).addClass(CSS_SHOW);
-		} else {
-			images.addClass(CSS_SHOW).hide();
-			images.eq(0).show();
-		}
 		images.css("width", setting.width);
 		_this.css({"width" : setting.width, "height" : setting.height});
 
@@ -94,6 +88,12 @@
 
 		// fade
 		if (setting.type == "fade") {
+			if (canTransition) {
+				images.eq(0).addClass(CSS_SHOW);
+			} else {
+				images.addClass(CSS_SHOW).hide();
+				images.eq(0).show();
+			}
 
 			// 每次都创建个新的动画函数，使同一个页面能多次调用
 			style = new Animation.Fade();
@@ -108,6 +108,8 @@
 		
 		// slide
 		if (setting.type == "slide") {
+
+			images.addClass(CSS_SHOW);
 			var wrapUl = _this.children("ul");
 			var first = images.eq(0).clone(true);
 			var last = images.eq(length - 1).clone(true);
@@ -142,7 +144,7 @@
 		// 控制显隐元素
 		_this.on("mouseenter mouseleave", function(event) {
 			var target = $(event.relatedTarget),
-				title = images.find(".simpleFocus-title");
+				title = _this.find(".simpleFocus-title");
 			if (event.type == "mouseenter") {
 				prev.addClass(CSS_SHOW);
 				next.addClass(CSS_SHOW);
@@ -156,7 +158,7 @@
 				title.removeClass(CSS_SHOW);
 
 				// 自动播放
-				interval = auto(style, options, setting.interval);    
+				interval = auto(style, options, setting.interval);
 			}
 		});
 		
@@ -171,7 +173,7 @@
 
 
 		// 自动播放
-		// interval = auto(style, options, setting.interval);
+		interval = auto(style, options, setting.interval);
 	};
 	
 	var Animation = {
@@ -260,7 +262,7 @@
 
 					index = after;
 				}
-				_this.find(".simpleFocus-nav dd").eq(index).addClass("selected").siblings("dd").removeClass("selected");
+				navChange(_this, index);
 			};
 
 			// 返回动画函数
@@ -272,11 +274,14 @@
 				wrap,
 				index = 0,
 				before, after,
+				cur = 1,
+				prev, next,
 				flag = true,
 				first = 0,
 				second = 0,
 				isFirst = true,
 				images, length,
+				imgs, len,
 				duration,
 				active,
 				status,
@@ -289,7 +294,9 @@
 					wrap = _this.children("ul");
 					images = param.obj || param.data.obj;
 					length = images.length;
-					distance = images.eq(0).width();
+					imgs = _this.find("li");
+					len = imgs.length;
+					distance = _this.width();
 					duration = param.duration || param.data.duration;
 					isFirst = false;
 				} 
@@ -307,47 +314,90 @@
 					}
 				}
 
-				// active = typeof param.active == "number" ? param.active : -1;
-				// status = changeStatus(index, active);
+				active = typeof param.active == "number" ? param.active : -1;
+				status = changeStatus(index, active);
 
 				if (param.data && param.data.d === 0 || status.direction === 0) {      		
 
 					// 向左
-
-					before = index - 1;    
+					if (status.direction === 0) {
+						step = status.step;
+					} else {
+						step = 1;
+					}
+					before = index - step;    
 					if (before < 0) {
 						before = length + before;
 					}
+
+					prev = cur - step;
+					if (prev < 0) {
+						if (canTransition) {
+							wrap.css({
+								"transition-duration": "0s",
+								"transform": "translate3d(" + (-distance * (len - 2)) + "px, 0, 0)"
+							});
+
+							// fix bug 确保transform设置成功
+							wrap.css("transform");
+						} else {
+							wrap.css("left", -distance * (len - 2));
+						}
+						prev = len - 2 - step;
+					}		
+
 					if (canTransition) {
 						wrap.css({
-							"transition-duration": "0s",
-							"transform":"translate3d(" + (-_this.width()) + "px, 0, 0)"
+							"transition-duration": duration + "ms",
+							"transform": "translate3d(" + (-distance * prev) + "px, 0, 0)"
 						});
-						// images.eq(prev).addClass(CSS_SHOW).css("left", "0");
 					} else {
-						images.eq(index).animate({"left": distance}, duration);
-						// images.eq(prev).show().animate({"left": "0"}, duration);
+						wrap.animate({"left": -distance * prev}, duration);
 					}
 
 					index = before;
+					cur = prev;
 				} else {                     	
 
 					// 向右
-					after = index + step;        		
+					if (status.direction === 1) {
+						step = status.step;
+					} else {
+						step = 1;
+					}
+					after = index + step; 		
 					if (after >= length) {
 						after = length - after;
 					}
 
+					next = cur + step;
+					if (next >= len) {
+						if (canTransition) {
+							wrap.css({
+								"transition-duration": "0s",
+								"transform":"translate3d(" + (-distance) + "px, 0, 0)"
+							});
+
+							// fix bug 确保transform设置成功
+							wrap.css("transform");
+						} else {
+							wrap.css("left", -distance);
+						}
+						next = 1 + step;
+					}
 					if (canTransition) {
-						images.eq(index).css("left", -distance);
-						// images.eq(next).addClass(CSS_SHOW).css("left", "0");
+						wrap.css({
+							"transition-duration": duration + "ms",
+							"transform":"translate3d(" + (-distance * next) + "px, 0, 0)"
+						});
 					} else {
-						images.eq(index).animate({"left": -distance}, duration);
-						// images.eq(next).show().animate({"left": "0"}, duration);
+						wrap.animate({"left": -distance * next}, duration);
 					}
 
 					index = after;
+					cur = next;
 				}
+				navChange(_this, index);
 			};
 
 			function isFirst() {
@@ -411,6 +461,13 @@
 		html += "</dl></div>";
 
 		return html;
+	};
+
+	function navChange(obj, index) {
+		var CSS_SELECTED = "selected";
+		obj.find(".simpleFocus-nav dd")
+			.eq(index).addClass(CSS_SELECTED)
+			.siblings("dd").removeClass(CSS_SELECTED);
 	};
 
 	function changeStatus(cur, active) {
