@@ -13,11 +13,12 @@
 		height : 300,
 		title : true,
 		type : "fade",		
-		duration : 500,		// 动画持续时间
-		interval : 5000,	// 自动播放时间间隔
-		prevBtn : null,		// 左切换按钮
-		nextBtn : null,		// 右切换按钮
-		navControl : true
+		duration : 500,			// 动画持续时间
+		interval : 5000,		// 自动播放时间间隔
+		arrowControl : true,	// 切换按钮
+		prevBtn : null,			// 左切换按钮
+		nextBtn : null,			// 右切换按钮
+		navControl : true 		// 切换条
 	};
 
 	var CSS_SHOW = "show",
@@ -49,8 +50,8 @@
 		_this.css({"width" : setting.width, "height" : setting.height});
 
 		// 设置切换按钮
-		if (!setting.prevBtn && !setting.nextBtn) {
-			_this.append("<span class='simpleFocus-prev'>&lsaquo;</span><span class='simpleFocus-next'>&rsaquo;</span>");
+		if (setting.arrowControl && !setting.prevBtn && !setting.nextBtn) {
+			_this.append("<span class='simpleFocus-prev'><span>&lsaquo;</span></span><span class='simpleFocus-next'><span>&rsaquo;</span></span>");
 		}
 
 		// 设置title
@@ -83,8 +84,10 @@
 			titles.eq(i).css(duration);
 		}
 
-		prev = setting.prevBtn || _this.find(".simpleFocus-prev");
-		next = setting.nextBtn || _this.find(".simpleFocus-next");
+		if (setting.arrowControl) {
+			prev = setting.prevBtn || _this.find(".simpleFocus-prev");
+			next = setting.nextBtn || _this.find(".simpleFocus-next");
+		}
 
 		// fade
 		if (setting.type == "fade") {
@@ -102,8 +105,11 @@
 				obj : images,
 				duration : setting.duration
 			};
-			prev.on("click", $.extend({d : 0}, options), style);
-			next.on("click", $.extend({d : 1}, options), style);	
+
+			if (setting.arrowControl) {
+				prev.on("click", $.extend({d : 0}, options), style);
+				next.on("click", $.extend({d : 1}, options), style);
+			}
 		}
 		
 		// slide
@@ -137,8 +143,11 @@
 				obj : images,
 				duration : setting.duration
 			};
-			prev.on("click", $.extend({d:0}, options), style);
-			next.on("click", $.extend({d:1}, options), style);
+
+			if (setting.arrowControl) {
+				prev.on("click", $.extend({d:0}, options), style);
+				next.on("click", $.extend({d:1}, options), style);
+			}
 		}
 
 		// 控制显隐元素
@@ -146,15 +155,19 @@
 			var target = $(event.relatedTarget),
 				title = _this.find(".simpleFocus-title");
 			if (event.type == "mouseenter") {
-				prev.addClass(CSS_SHOW);
-				next.addClass(CSS_SHOW);
+				if (setting.arrowControl) {
+					prev.addClass(CSS_SHOW);
+					next.addClass(CSS_SHOW);
+				}
 				title.addClass(CSS_SHOW);
 				
 				// 暂停自动播放
 				clearInterval(interval);    
 			} else {
-				prev.removeClass(CSS_SHOW);
-				next.removeClass(CSS_SHOW);
+				if (setting.arrowControl) {
+					prev.removeClass(CSS_SHOW);
+					next.removeClass(CSS_SHOW);
+				}
 				title.removeClass(CSS_SHOW);
 
 				// 自动播放

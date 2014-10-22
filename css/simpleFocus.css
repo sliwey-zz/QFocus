@@ -33,6 +33,8 @@
 	width: 100%;
 	bottom: 0;
 	margin: 0;
+	background: rgb(0,0,0);
+	filter:alpha(opacity=60);
 	background: rgba(0,0,0,.6);
 	color: rgb(255,255,255);
 	font-size: 16px;
@@ -46,6 +48,7 @@
 }
 .simpleFocus .simpleFocus-title span{
 	margin-left: 10px;
+	position: relative;
 }
 .simpleFocus-prev,.simpleFocus-next{
 	width:40px;
@@ -55,6 +58,8 @@
 	font-size:30px;
 	font-family: 'Microsoft YaHei';
 	color:rgb(255,255,255);
+	background: rgb(51,51,51);
+	filter:alpha(opacity=60);
 	background: rgba(51,51,51,.6);
 	position:absolute;
 	top:45%;
@@ -71,6 +76,9 @@
 .simpleFocus-prev.show,.simpleFocus-next.show{
 	visibility: visible;
 	opacity: 0.7;
+}
+.simpleFocus-prev span,.simpleFocus-next span{
+	position: relative;
 }
 .simpleFocus-prev{
 	left: 5px;
@@ -90,7 +98,6 @@
 	margin: 0;
 	display: inline;
 	background: rgba(255,255,255,.3);
-	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#4CFFFFFF', EndColorStr='#4CFFFFFF');
 	border-radius: 10px;
 	padding: 0 5px;
 }
