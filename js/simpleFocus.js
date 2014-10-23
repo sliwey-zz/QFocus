@@ -413,14 +413,6 @@
 				navChange(_this, index);
 			};
 
-			function isFirst() {
-				var self = _this;
-			};
-
-			function isLast() {
-
-			};
-
 			// 返回动画函数	
 			return _slide;
 		}
