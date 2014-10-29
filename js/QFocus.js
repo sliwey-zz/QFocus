@@ -1,5 +1,5 @@
 /**
- *  simpleFocus.js   v2.0.0
+ *  QFocus.js   v2.0.0
  *  
  *	author: sliwey
  *  date: 2014-8-20
@@ -25,7 +25,7 @@
 		canTransition = supportCSS3("transition");
 
 	$.fn.extend({
-		simpleFocus : function(options) {
+		QFocus : function(options) {
 			var setting = $.extend({}, defaluts, options);
 			init(setting, this);
 			return this;
@@ -51,7 +51,7 @@
 
 		// 设置切换按钮
 		if (setting.arrowControl && !setting.prevBtn && !setting.nextBtn) {
-			_this.append("<span class='simpleFocus-prev'><span>&lsaquo;</span></span><span class='simpleFocus-next'><span>&rsaquo;</span></span>");
+			_this.append("<span class='QFocus-prev'><span>&lsaquo;</span></span><span class='QFocus-next'><span>&rsaquo;</span></span>");
 		}
 
 		// 设置title
@@ -59,14 +59,14 @@
 			for (i = 0; i < length; i++) {
 				img = images.eq(i);
 				title = img.find("a").attr("title");
-				img.append("<p class='simpleFocus-title'><span>" + title + "</span></p>");
+				img.append("<p class='QFocus-title'><span>" + title + "</span></p>");
 			}
 		}
 
 		// 设置切换条
 		if (setting.navControl) {
 			_this.append(createNav(length));
-			nav = _this.find(".simpleFocus-nav dd");
+			nav = _this.find(".QFocus-nav dd");
 		}
 
 		// 设置动画持续时间
@@ -78,15 +78,15 @@
 			images.eq(i).css(duration);
 		}
 
-		titles = _this.find(".simpleFocus-title");
+		titles = _this.find(".QFocus-title");
 		len = titles.length;
 		for (i = 0; i < len; i++) {
 			titles.eq(i).css(duration);
 		}
 
 		if (setting.arrowControl) {
-			prev = setting.prevBtn || _this.find(".simpleFocus-prev");
-			next = setting.nextBtn || _this.find(".simpleFocus-next");
+			prev = setting.prevBtn || _this.find(".QFocus-prev");
+			next = setting.nextBtn || _this.find(".QFocus-next");
 		}
 
 		// fade
@@ -153,7 +153,7 @@
 		// 控制显隐元素
 		_this.on("mouseenter mouseleave", function(event) {
 			var target = $(event.relatedTarget),
-				title = _this.find(".simpleFocus-title");
+				title = _this.find(".QFocus-title");
 			if (event.type == "mouseenter") {
 				if (setting.arrowControl) {
 					prev.addClass(CSS_SHOW);
@@ -440,7 +440,7 @@
 	};
 
 	function createNav(num) {
-		var html = "<div class='simpleFocus-nav'><dl>";
+		var html = "<div class='QFocus-nav'><dl>";
 
 		for (var i = 0; i < num; i++) {
 			if (i == 0) {
@@ -458,7 +458,7 @@
 	function navChange(obj, index) {
 		var CSS_SELECTED = "selected";
 
-		obj.find(".simpleFocus-nav dd")
+		obj.find(".QFocus-nav dd")
 			.eq(index).addClass(CSS_SELECTED)
 			.siblings("dd").removeClass(CSS_SELECTED);
 	};

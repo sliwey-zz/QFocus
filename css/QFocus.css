@@ -1,10 +1,10 @@
-.simpleFocus{
+.QFocus{
 	width: 600px;
 	height: 300px;
 	overflow: hidden;
 	position: relative;
 }
-.simpleFocus ul{
+.QFocus ul{
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -13,7 +13,7 @@
 	overflow: hidden;
 	position: relative;
 }
-.simpleFocus li{
+.QFocus li{
 	height: 100%;
 	position: absolute;
 	visibility: hidden;
@@ -21,14 +21,14 @@
 	-webkit-transition: all .5s;
 	transition: all .5s;
 }
-.simpleFocus li.show{
+.QFocus li.show{
 	visibility: visible;
 	opacity: 1;
 }
-.simpleFocus li a{
+.QFocus li a{
 	display: block;
 }
-.simpleFocus .simpleFocus-title{
+.QFocus .QFocus-title{
 	position: absolute;
 	width: 100%;
 	bottom: 0;
@@ -43,14 +43,14 @@
 	transition: height .5s;
 	-webkit-transition: height .5s;
 }
-.simpleFocus .simpleFocus-title.show{
+.QFocus .QFocus-title.show{
 	height: 30px;
 }
-.simpleFocus .simpleFocus-title span{
+.QFocus .QFocus-title span{
 	margin-left: 10px;
 	position: relative;
 }
-.simpleFocus-prev,.simpleFocus-next{
+.QFocus-prev,.QFocus-next{
 	width:40px;
 	height:40px;
 	line-height:35px;
@@ -70,23 +70,23 @@
 	transition: all .5s;
 	-webkit-transition: all .5s;
 }
-.simpleFocus-prev:hover,.simpleFocus-next:hover{
+.QFocus-prev:hover,.QFocus-next:hover{
 	background: rgba(30,30,30,.8);
 }
-.simpleFocus-prev.show,.simpleFocus-next.show{
+.QFocus-prev.show,.QFocus-next.show{
 	visibility: visible;
 	opacity: 0.7;
 }
-.simpleFocus-prev span,.simpleFocus-next span{
+.QFocus-prev span,.QFocus-next span{
 	position: relative;
 }
-.simpleFocus-prev{
+.QFocus-prev{
 	left: 5px;
 }
-.simpleFocus-next{
+.QFocus-next{
 	right: 5px;
 }
-.simpleFocus-nav{
+.QFocus-nav{
 	position: absolute;
 	left: 0;
 	bottom: 10px;
@@ -94,14 +94,14 @@
 	margin: 0;
 	text-align: center;
 }
-.simpleFocus-nav dl{
+.QFocus-nav dl{
 	margin: 0;
 	display: inline;
 	background: rgba(255,255,255,.3);
 	border-radius: 10px;
 	padding: 0 5px;
 }
-.simpleFocus-nav dd{
+.QFocus-nav dd{
 	display: inline-block;
 	*display: inline;
 	*zoom: 1;
@@ -114,12 +114,12 @@
 	top: -1px;
 	cursor: pointer;
 }
-.simpleFocus-nav dd.selected{
+.QFocus-nav dd.selected{
 	background: #fd6730;
 }
 
 /* slide */
-.simpleFocus .slide li{
+.QFocus .slide li{
 	position: relative;
 	float: left;	
 	visibility: visible;
