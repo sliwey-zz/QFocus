@@ -184,7 +184,6 @@
 			});
 		}
 
-
 		// 自动播放
 		interval = auto(style, options, setting.interval);
 	};
@@ -194,7 +193,6 @@
 			var _this,
 				index = 0,		// 当前图片下标
 				before, after,
-				flag = true,
 				first = 0,
 				second = 0,
 				isFirst = true,
@@ -213,17 +211,12 @@
 					isFirst = false;
 				}
 
-				// 控制两次点击的时间间隔大于动画时间	
-				if (flag) {
-					first = new Date();
-					flag = false;
+				// 控制两次点击的时间间隔大于动画时间
+				second = new Date();
+				if (second - first <= duration) {
+					return false;
 				} else {
-					second = new Date();
-					if (second - first <= duration) {
-						return false;
-					} else {
-						first = second;
-					}
+					first = second;
 				}
 
 				active = typeof param.active == "number" ? param.active : -1;
@@ -289,7 +282,6 @@
 				before, after,
 				cur = 1,
 				prev, next,
-				flag = true,
 				first = 0,
 				second = 0,
 				isFirst = true,
@@ -314,17 +306,12 @@
 					isFirst = false;
 				} 
 
-				// 控制两次点击的时间间隔大于动画时间	
-				if (flag) {
-					first = new Date();
-					flag = false;
+				// 控制两次点击的时间间隔大于动画时间
+				second = new Date();
+				if (second - first <= duration) {
+					return false;
 				} else {
-					second = new Date();
-					if (second - first <= duration) {
-						return false;
-					} else {
-						first = second;
-					}
+					first = second;
 				}
 
 				active = typeof param.active == "number" ? param.active : -1;
@@ -432,24 +419,24 @@
 			i,suffix,
 			styleArr = [style];
 
-			if (length > 1) {
-				for (i = 0; i < length; i++) {
-					styleTemp[i] = styleTemp[i].charAt(0).toUpperCase() + styleTemp[i].substring(1);
-				}
+		if (length > 1) {
+			for (i = 0; i < length; i++) {
+				styleTemp[i] = styleTemp[i].charAt(0).toUpperCase() + styleTemp[i].substring(1);
 			}
+		}
 
-			suffix = styleTemp.join('');
+		suffix = styleTemp.join('');
 
-			for (i = 0; i < 4; i++) {
-				styleArr.push(prefix[i] + suffix);
+		for (i = 0; i < 4; i++) {
+			styleArr.push(prefix[i] + suffix);
+		}
+
+		for (i = 0; i < 5; i++) {
+			if (styleArr[i] in supportStyle) {
+				return true;
 			}
-
-			for (i = 0; i < 5; i++) {
-				if (styleArr[i] in supportStyle) {
-					return true;
-				}
-			}
-			return false;
+		}
+		return false;
 	};
 
 	function createNav(num) {
@@ -470,6 +457,7 @@
 
 	function navChange(obj, index) {
 		var CSS_SELECTED = "selected";
+
 		obj.find(".simpleFocus-nav dd")
 			.eq(index).addClass(CSS_SELECTED)
 			.siblings("dd").removeClass(CSS_SELECTED);
