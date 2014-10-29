@@ -11,8 +11,8 @@
 	var defaluts = {
 		width : 600,
 		height : 300,
-		title : true,
-		type : "fade",		
+		title : false,
+		type : "slide",		
 		duration : 500,			// 动画持续时间
 		interval : 5000,		// 自动播放时间间隔
 		arrowControl : true,	// 切换按钮

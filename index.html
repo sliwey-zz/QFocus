@@ -7,55 +7,384 @@
         <style>
             body{
                 width:600px;
-                margin:0 auto;
+                margin:20px auto;
+                color: #333;
+                font-family: Helvetica,Tahoma,Arial,sans-serif;
+                line-height: 1.5;
+                font-size: 14px;
             }
-            .wrap{
-                width:600px;
-                margin:50px auto;
+            h1,h2,h3,h4,p{
+                margin:0;
+                padding:0;
+                color:#555;
+            }
+            pre{
+                background: #333;
+                color: #f7f7f7;
+                font-family: Consolas, Monaco, Menlo, monospace;
+                padding:5px 10px;
+                margin: 10px 0;
+            }
+            button{
+                margin:10px 0;
+                cursor: pointer;
+            }
+            h1{
+                text-align: center;
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+            h2{
+                font-size: 22px;
+                padding:3px 10px;
+                border-left: 3px solid #666;
+                background: #f4f4f4;
+                margin: 20px 0;
+            }
+            h3{
+                font-size: 18px;
+                margin: 10px 0;
+            }
+            code{
+                background: #f8f8f8;
+                border:1px solid #eaeaea;
+                font-family: Consolas, Monaco, Menlo, monospace;
+                padding:0 3px;
+                margin: 0 3px;
+                border-radius:3px;
+            }
+            .fork{
+                display: block;
+                background: url(images/fork-sprite.png) 0 0;
+                width:135px;
+                height: 135px;
+                position: absolute;
+                top:0;
+                left:0;
+            }
+            .fork:hover{
+                background-position: 0 -138px;
+            }
+            .tips{
+                font-size: 13px;
+                background: #fff9e4;
+                border-left:2px solid #fde198;
+                padding:10px;
+            }
+            .tips dd{
+                margin-left: 35px;
+            }
+            .catalog a{
+                color:#66acfc;
+                text-decoration: none;
+            }
+            .catalog a:hover{
+                text-decoration:underline;
+            }
+            .backToTop{
+                position: fixed;
+                bottom: 10px;
+                right:10px;
+                color:#fff;
+                background: #66acfc;
+                border:1px solid #66acfc;
+                text-decoration: none;
+                padding: 5px;
+                -webkit-transition:.3s;
+                -moz-transition:.3s;
+                -ms-transition:.3s;
+                -o-transition:.3s;
+                transition:.3s;
+            }
+            .backToTop:hover{
+                color:#66acfc;
+                background:#fff;
+            }
+            .btn{
+                position: absolute;
+                top:120px;
+                color:#fff;
+                font-size: 60px;
+                cursor: pointer;
+            }
+            .btn:hover{
+                color:#ff7a52;
+            }
+            .btn-prev{
+                left:0;
+            }
+            .btn-next{
+                right:0;
+            }
+            .QFocus{
+                display:none;
+            }
+            .QFocus.show{
+                display: block;
             }
         </style>
     </head> 
     <body>
         <h1>QFocus</h1>
-        <div class="wrap">
-            <p></p>
-            <div id="div1" class="QFocus">
+        <a href="https://github.com/sliwey/QFocus" class="fork"></a>
+        <h2>目录</h2>
+        <ul class="catalog">
+            <li><a href="#import">快速使用</a></li>
+            <li>
+                <a href="#options">选项</a>
                 <ul>
-                    <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
-                    <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
-                    <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
-                    <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
+                    <li><a href="#type">type</a></li>
+                    <li><a href="#title">title</a></li>
+                    <li><a href="#navControl">navControl</a></li>
+                    <li><a href="#arrowControl">arrowControl</a></li>
+                    <li><a href="#customBtn">自定义切换按钮</a></li>
+                    <li><a href="#width">width</a></li>
+                    <li><a href="#height">height</a></li>
+                    <li><a href="#interval">interval</a></li>
+                    <li><a href="#duration">duration</a></li>
                 </ul>
-            </div>
+            </li>
+        </ul>
+        <h2 id="import">快速使用</h2>
+        <h3>1.引入文件</h3>
+<pre>&lt;script src="js/jquery-1.11.1.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="css/QFocus.css" /&gt;
+&lt;script src="js/QFocus.js"&gt;&lt;/script&gt;</pre>
+        <h3>2.HTML结构</h3>
+<pre>&lt;div id="focus1" class="QFocus"&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/1.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/2.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
+        <h3>3.插件调用</h3>
+<pre>$("#focus1").QFocus();
+<button class="showBtn">显示效果</button></pre>
+        <div id="focus1" class="QFocus">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" /></a></li>
+                <li><a href="#"><img src="images/2.jpg" /></a></li>
+                <li><a href="#"><img src="images/3.jpg" /></a></li>
+                <li><a href="#"><img src="images/4.jpg" /></a></li>
+            </ul>
         </div>
-        <div class="wrap">
-            <div id="div2" class="QFocus">
-                <ul>
-                    <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
-                    <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
-                    <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
-                    <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
-                </ul>
-            </div>
+        <h2 id="options">选项</h2>
+        <h3 id="type">&bull;&nbsp;&nbsp;type</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>切换效果类型</dd>
+            <dt>类型</dt>
+            <dd><code>String</code></dd>
+            <dt>可选值</dt>
+            <dd><code>"slide"</code><code>"fade"</code></dd>
+            <dt>默认值</dt>
+            <dd><code>"slide"</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    type:"fade"
+});
+<button class="showBtn">显示效果</button></pre>
+        <div id="focus2" class="QFocus">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" /></a></li>
+                <li><a href="#"><img src="images/2.jpg" /></a></li>
+                <li><a href="#"><img src="images/3.jpg" /></a></li>
+                <li><a href="#"><img src="images/4.jpg" /></a></li>
+            </ul>
         </div>
-        <div class="wrap">
-            <div id="div3" class="QFocus">
-                <ul>
-                    <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
-                    <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
-                    <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
-                    <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
-                </ul>
-            </div>
+        <h3 id="title">&bull;&nbsp;&nbsp;title</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>是否显示标题</dd>
+            <dt>类型</dt>
+            <dd><code>Boolean</code></dd>
+            <dt>默认值</dt>
+            <dd><code>false</code></dd>
+            <dt>提示</dt>
+            <dd>设为<code>true</code>时，<code>&lt;a&gt;</code>标签需要有<code>title</code>属性</dd>
+        </dl>
+        <h4>示例</h4>
+<pre>&lt;div id="focus1" class="QFocus"&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#" title="标题一"&gt;&lt;img src="images/1.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#" title="标题二"&gt;&lt;img src="images/2.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#" title="标题三"&gt;&lt;img src="images/3.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#" title="标题四"&gt;&lt;img src="images/4.jpg" /&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</pre>
+<pre>$("#focus1").QFocus({
+    title:true
+});
+<button class="showBtn">显示效果</button></pre>
+        <div id="focus3" class="QFocus">
+            <ul>
+                <li><a href="#" title="标题一"><img src="images/1.jpg" /></a></li>
+                <li><a href="#" title="标题二"><img src="images/2.jpg" /></a></li>
+                <li><a href="#" title="标题三"><img src="images/3.jpg" /></a></li>
+                <li><a href="#" title="标题四"><img src="images/4.jpg" /></a></li>
+            </ul>
         </div>
+        <h3 id="navControl">&bull;&nbsp;&nbsp;navControl</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>是否显示切换条</dd>
+            <dt>类型</dt>
+            <dd><code>Boolean</code></dd>
+            <dt>默认值</dt>
+            <dd><code>true</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    navControl:false
+});
+<button class="showBtn">显示效果</button></pre>
+        <div id="focus4" class="QFocus">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" /></a></li>
+                <li><a href="#"><img src="images/2.jpg" /></a></li>
+                <li><a href="#"><img src="images/3.jpg" /></a></li>
+                <li><a href="#"><img src="images/4.jpg" /></a></li>
+            </ul>
+        </div>
+        <h3 id="arrowControl">&bull;&nbsp;&nbsp;arrowControl</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>是否显示左右切换按钮</dd>
+            <dt>类型</dt>
+            <dd><code>Boolean</code></dd>
+            <dt>默认值</dt>
+            <dd><code>true</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    arrowControl:false
+});
+<button class="showBtn">显示效果</button></pre>
+        <div id="focus5" class="QFocus">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" /></a></li>
+                <li><a href="#"><img src="images/2.jpg" /></a></li>
+                <li><a href="#"><img src="images/3.jpg" /></a></li>
+                <li><a href="#"><img src="images/4.jpg" /></a></li>
+            </ul>
+        </div>
+        <h3 id="customBtn">&bull;&nbsp;&nbsp;自定义切换按钮</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>可自定义左右切换按钮</dd>
+            <dt>前置条件</dt>
+            <dd><code>arrowControl</code>需为<code>true</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>&lt;span id="prev" class="btn btn-prev">&lt;&lt;/span&gt;
+&lt;span id="next" class="btn btn-next"&gt;&gt;&lt;/span&gt;</pre>
+<pre>$("#focus1").QFocus({
+    arrowControl: true,
+    prevBtn: $("#prev"),
+    nextBtn: $("#next")
+});
+<button class="showBtn">显示效果</button></pre>
+        <div id="focus6" class="QFocus">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" /></a></li>
+                <li><a href="#"><img src="images/2.jpg" /></a></li>
+                <li><a href="#"><img src="images/3.jpg" /></a></li>
+                <li><a href="#"><img src="images/4.jpg" /></a></li>
+            </ul>
+            <span id="prev" class="btn btn-prev">&lt;</span>
+            <span id="next" class="btn btn-next">&gt;</span>
+        </div>
+        <h3 id="width">&bull;&nbsp;&nbsp;width</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>设置宽度</dd>
+            <dt>类型</dt>
+            <dd><code>Number</code>/<code>String</code></dd>
+            <dt>默认值</dt>
+            <dd><code>600</code></dd>
+            <dt>说明</dt>
+            <dd>与jQuery的<code>width()</code>一致</dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    width: "100%"
+});</pre>
+        <h3 id="height">&bull;&nbsp;&nbsp;height</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>设置高度</dd>
+            <dt>类型</dt>
+            <dd><code>Number</code>/<code>String</code></dd>
+            <dt>默认值</dt>
+            <dd><code>300</code></dd>
+            <dt>说明</dt>
+            <dd>与jQuery的<code>height()</code>一致</dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    height: 400
+});</pre>
+        <h3 id="interval">&bull;&nbsp;&nbsp;interval</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>设置自动播放时的时间间隔</dd>
+            <dt>类型</dt>
+            <dd><code>Number</code></dd>
+            <dt>单位</dt>
+            <dd>毫秒(ms)</dd>
+            <dt>默认值</dt>
+            <dd><code>5000</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    interval: 3000
+});</pre>
+        <h3 id="duration">&bull;&nbsp;&nbsp;duration</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>设置每次切换动画的持续时间</dd>
+            <dt>类型</dt>
+            <dd><code>Number</code></dd>
+            <dt>单位</dt>
+            <dd>毫秒(ms)</dd>
+            <dt>默认值</dt>
+            <dd><code>500</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    duration: 800
+});</pre>
+        <a href="#" class="backToTop">TOP</a>
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/QFocus.js"></script>
         <script>
-            $(function() {
-                $("#div1").QFocus({arrowControl: false});
-                $("#div2").QFocus({navControl: false});
-                $("#div3").QFocus({type:"slide"});
-            })
+            $("#focus1").QFocus();
+            $("#focus2").QFocus({type:"fade"});
+            $("#focus3").QFocus({title:true});
+            $("#focus4").QFocus({navControl:false});
+            $("#focus5").QFocus({arrowControl:false});
+            $("#focus6").QFocus({
+                prevBtn: $("#prev"),
+                nextBtn: $("#next")
+            });
+
+            $(".showBtn").each(function(i) {
+                $(this).on("click", function() {
+                    var focus = $(".QFocus").eq(i),
+                        flag = focus.hasClass("show");
+
+                    if (flag) {
+                        $(this).text("显示效果");
+                        focus.removeClass("show");
+                    } else {
+                        $(this).text("隐藏");
+                        focus.addClass("show");
+                    }
+                });
+            });
         </script>
     </body>
 </html>
