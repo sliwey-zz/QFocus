@@ -1,4 +1,4 @@
-simpleFocus
+QFocus
 ===========
 
-基于jQuery的简单焦点图插件
+jQuery焦点图插件
