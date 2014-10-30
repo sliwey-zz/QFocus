@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>QFocus</title>
-        <link rel="stylesheet" href="css/QFocus.css" />
+        <link rel="stylesheet" href="css/QFocus.min.css" />
         <style>
             body{
                 width:600px;
@@ -146,6 +146,7 @@
                     <li><a href="#navControl">navControl</a></li>
                     <li><a href="#arrowControl">arrowControl</a></li>
                     <li><a href="#customBtn">自定义切换按钮</a></li>
+                    <li><a href="#afterInit">afterInit()</a></li>
                     <li><a href="#width">width</a></li>
                     <li><a href="#height">height</a></li>
                     <li><a href="#interval">interval</a></li>
@@ -305,6 +306,28 @@
             <span id="prev" class="btn btn-prev">&lt;</span>
             <span id="next" class="btn btn-next">&gt;</span>
         </div>
+        <h3 id="afterInit">&bull;&nbsp;&nbsp;afterInit()</h3>
+        <dl class="tips">
+            <dt>描述</dt>
+            <dd>初始化结束后的回调函数</dd>
+            <dt>类型</dt>
+            <dd><code>Function</code></dd>
+        </dl>
+        <h4>示例</h4>
+<pre>$("#focus1").QFocus({
+    afterInit: function() {
+        alert("初始化完成了呢！");
+    }
+});
+<button id="callback1" class="showBtn">显示效果</button></pre>
+        <div id="focus7" class="QFocus">
+            <ul>
+                <li><a href="#"><img src="images/1.jpg" /></a></li>
+                <li><a href="#"><img src="images/2.jpg" /></a></li>
+                <li><a href="#"><img src="images/3.jpg" /></a></li>
+                <li><a href="#"><img src="images/4.jpg" /></a></li>
+            </ul>
+        </div>
         <h3 id="width">&bull;&nbsp;&nbsp;width</h3>
         <dl class="tips">
             <dt>描述</dt>
@@ -368,7 +391,7 @@
         <a href="https://github.com/sliwey/QFocus" class="fork"></a>
         <a href="#" class="backToTop">TOP</a>
         <script src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/QFocus.js"></script>
+        <script src="js/QFocus.min.js"></script>
         <script>
             $("#focus1").QFocus();
             $("#focus2").QFocus({type:"fade"});
@@ -393,6 +416,18 @@
                         focus.addClass("show");
                     }
                 });
+            });
+
+            var flag = true;
+            $("#callback1").on("click", function() {
+                if (flag) {
+                    $("#focus7").QFocus({
+                        afterInit: function() {
+                            alert("初始化完成了呢！");
+                        }
+                    });
+                    flag = false;
+                }
             });
         </script>
     </body>
