@@ -114,8 +114,6 @@
 		
 		// slide
 		if (setting.type == "slide") {
-
-			images.addClass(CSS_SHOW);
 			var wrapUl = _this.children("ul");
 			var first = images.eq(0).clone(true);
 			var last = images.eq(length - 1).clone(true);
