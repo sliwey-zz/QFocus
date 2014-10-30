@@ -13,12 +13,13 @@
 		height : 300,
 		title : false,
 		type : "slide",		
-		duration : 500,			// 动画持续时间
-		interval : 5000,		// 自动播放时间间隔
-		arrowControl : true,	// 切换按钮
-		prevBtn : null,			// 左切换按钮
-		nextBtn : null,			// 右切换按钮
-		navControl : true 		// 切换条
+		duration : 500,				// 动画持续时间
+		interval : 5000,			// 自动播放时间间隔
+		arrowControl : true,		// 切换按钮
+		prevBtn : null,				// 左切换按钮
+		nextBtn : null,				// 右切换按钮
+		navControl : true, 			// 切换条
+		afterInit : function(){}	// 初始化
 	};
 
 	var CSS_SHOW = "show",
@@ -184,6 +185,9 @@
 
 		// 自动播放
 		interval = auto(style, options, setting.interval);
+
+		// 初始化完成回调函数
+		typeof setting.afterInit === "function" && setting.afterInit();
 	};
 	
 	var Animation = {
