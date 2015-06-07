@@ -1,13 +1,13 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var concat = require('gulp-concat');
-var minifycss = require('gulp-minify-css');
+var gulp = require('gulp'),
+	uglify = require('gulp-uglify'),
+	rename = require('gulp-rename'),
+	concat = require('gulp-concat'),
+	minifycss = require('gulp-minify-css');
 
 var options = {
 	preserveComments : function(node, comment) {
-	    var value = comment.value;
-	    var type = comment.type;
+	    var value = comment.value,
+	    	type = comment.type;
 	    if (type == "comment2") {
 	        return /author/i.test(value);
 	    }
